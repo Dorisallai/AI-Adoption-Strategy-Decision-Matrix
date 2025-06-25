@@ -1,0 +1,131 @@
+import { useState } from 'react';
+
+export default function AIAdoptionMatrix() {
+  const [selectedStrategy, setSelectedStrategy] = useState(null);
+
+  const strategies = {
+    'lowhanging': {
+      name: 'Low-hanging Fruits',
+      description: 'Start with areas already suited for AI to achieve quick wins and build momentum (e.g., marketing first, then ops, finance, HR).',
+      goal: 'Differentiation',
+      risk: 'Low'
+    },
+    'rpa': {
+      name: 'Robotic Process Automation (RPA)',
+      description: 'Use robotic automation to streamline workflows. Requires investment but reduces costs and improves efficiency.',
+      goal: 'Cost reduction',
+      risk: 'Low'
+    },
+    'crawling': {
+      name: 'Crawling',
+      description: 'Begin with small, low-risk AI use cases before moving to more complex implementations.',
+      goal: 'Differentiation',
+      risk: 'High'
+    },
+    'guineapigs': {
+      name: 'Guinea Pigs / Partnership',
+      description: 'Let smaller partners experiment with AI. If successful, consider alliances or acquisitions. Alternatively, partner with AI-advanced firms to access expertise and data and build internal capabilities over time.',
+      goal: 'Cost reduction',
+      risk: 'High'
+    }
+  };
+
+  const handleSelectStrategy = (strategy) => {
+    setSelectedStrategy(strategy === selectedStrategy ? null : strategy);
+  };
+
+  return (
+    <div className="ai-adoption-container p-4 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">AI Adoption Strategy Decision Matrix</h1>
+      
+      <p className="mb-6">
+        Managers' choice of AI adoption strategies is shaped by their strategic goals—whether to reduce costs or differentiate their offerings—and the level of risk they are willing to accept. Cost leadership strategies focus on deploying AI to streamline operations and improve efficiency, while differentiation strategies aim to use AI for innovation in marketing and customer experience.
+      </p>
+      
+      <div className="matrix-container mb-8">
+        <div className="grid grid-cols-3 border border-gray-300 bg-white">
+          {/* Header row */}
+          <div className="border-b border-r border-gray-300 p-4 font-semibold text-center">
+            <span className="text-sm text-gray-500">Managerial Goal ➜</span><br />
+            <span className="text-sm text-gray-500">Risk ⬇</span>
+          </div>
+          <div className="border-b border-r border-gray-300 p-4 font-semibold text-center bg-blue-50">
+            <span>Cost Reduction</span>
+          </div>
+          <div className="border-b border-gray-300 p-4 font-semibold text-center bg-green-50">
+            <span>Differentiation</span>
+          </div>
+          
+          {/* Low risk row */}
+          <div className="border-b border-r border-gray-300 p-4 font-semibold text-center bg-yellow-50">
+            <span>Low Risk</span>
+          </div>
+          <div 
+            className={`border-b border-r border-gray-300 p-4 text-center cursor-pointer hover:bg-blue-100 transition-colors ${selectedStrategy === 'rpa' ? 'bg-blue-200' : 'bg-blue-50'}`}
+            onClick={() => handleSelectStrategy('rpa')}
+          >
+            <span className="font-medium">Robotic Process Automation</span>
+          </div>
+          <div 
+            className={`border-b border-gray-300 p-4 text-center cursor-pointer hover:bg-green-100 transition-colors ${selectedStrategy === 'lowhanging' ? 'bg-green-200' : 'bg-green-50'}`}
+            onClick={() => handleSelectStrategy('lowhanging')}
+          >
+            <span className="font-medium">Low-hanging Fruits</span>
+          </div>
+          
+          {/* High risk row */}
+          <div className="border-r border-gray-300 p-4 font-semibold text-center bg-orange-50">
+            <span>High Risk</span>
+          </div>
+          <div 
+            className={`border-r border-gray-300 p-4 text-center cursor-pointer hover:bg-blue-100 transition-colors ${selectedStrategy === 'guineapigs' ? 'bg-blue-200' : 'bg-blue-50'}`}
+            onClick={() => handleSelectStrategy('guineapigs')}
+          >
+            <span className="font-medium">Guinea Pigs / Partnership</span>
+          </div>
+          <div 
+            className={`p-4 text-center cursor-pointer hover:bg-green-100 transition-colors ${selectedStrategy === 'crawling' ? 'bg-green-200' : 'bg-green-50'}`}
+            onClick={() => handleSelectStrategy('crawling')}
+          >
+            <span className="font-medium">Crawling</span>
+          </div>
+        </div>
+      </div>
+      
+      {selectedStrategy && (
+        <div className="strategy-details p-6 border border-gray-300 rounded-lg bg-white shadow-md mb-8 animate-fadeIn">
+          <h2 className="text-xl font-bold mb-3">{strategies[selectedStrategy].name}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="p-3 bg-gray-100 rounded-md">
+              <span className="font-semibold">Managerial Goal:</span> {strategies[selectedStrategy].goal}
+            </div>
+            <div className="p-3 bg-gray-100 rounded-md">
+              <span className="font-semibold">Risk Level:</span> {strategies[selectedStrategy].risk}
+            </div>
+          </div>
+          <p className="text-gray-700">{strategies[selectedStrategy].description}</p>
+        </div>
+      )}
+      
+      {!selectedStrategy && (
+        <div className="instructions p-6 border border-gray-300 rounded-lg bg-gray-50 text-center">
+          <p className="text-lg text-gray-700">👆 Click on any strategy in the matrix above to learn more about it</p>
+        </div>
+      )}
+      
+      <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+        <h3 className="font-bold text-lg mb-2">How to use this matrix:</h3>
+        <ol className="list-decimal pl-5 space-y-2">
+          <li>Consider your organisation's primary goal for AI adoption (cost reduction or differentiation)</li>
+          <li>Assess your organisation's tolerance for risk in AI implementation</li>
+          <li>Find the intersection in the matrix to identify suitable adoption strategies</li>
+          <li>Click on a strategy to learn more about its characteristics</li>
+        </ol>
+      </div>
+      
+      <p className="mt-6 text-sm text-gray-500 italic">
+        Source: Tehrani, A. N., Ray, S., Roy, S. K., & Gruner, R. L., & Appio, F. P. (2024). Decoding AI readiness: An in-depth analysis of key dimensions in multinational corporations. Technovation, 131, 102948.
+      </p>
+    </div>
+  );
+}
